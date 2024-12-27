@@ -11,12 +11,13 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .authorizeHttpRequests()
-                .requestMatchers("/h2-console/**").permitAll() // Allow access to H2 console
-                .anyRequest().authenticated() // Protect all other endpoints
-                .and()
-                .csrf().disable() // Disable CSRF for H2 console
-                .headers().frameOptions().disable(); // Enable iframes for H2 console
+                .authorizeHttpRequests(registry ->
+                        registry
+                                .requestMatchers("/h2-console/**").permitAll() // Allow H2 console access
+                                .anyRequest().permitAll() // Allow all other requests
+                )
+                .csrf(csrf -> csrf.disable()) // Disable CSRF for development/testing
+                .headers(headers -> headers.frameOptions(frame -> frame.disable())); // Allow H2 console iframes
         return http.build();
     }
 }
