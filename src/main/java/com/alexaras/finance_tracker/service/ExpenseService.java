@@ -25,10 +25,13 @@ public class ExpenseService {
     }
 
     public Expense updateExpense(Long id, Expense updatedExpense) {
+        System.out.println("Calling findById with id: " + id);
         return expenseRepository.findById(id).map(expense -> {
+            System.out.println("Found Expense: " + expense);
             expense.setAmount(updatedExpense.getAmount());
             expense.setCategory(updatedExpense.getCategory());
             expense.setDescription(updatedExpense.getDescription());
+            System.out.println("Updated Expense: " + expense);
             return expenseRepository.save(expense);
         }).orElseThrow(() -> new RuntimeException("Expense not found with id: " + id));
     }

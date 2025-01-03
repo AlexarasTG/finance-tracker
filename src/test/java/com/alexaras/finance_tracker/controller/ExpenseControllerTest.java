@@ -1,4 +1,4 @@
-package com.alexaras.finance_tracker.controller;
-
-public class ExpenseControllerTest {
+import static org.junit.jupiter.api.Assertions.*;
+class ExpenseControllerTest {
+  
 }
