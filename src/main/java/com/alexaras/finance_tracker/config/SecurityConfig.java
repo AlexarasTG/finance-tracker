@@ -14,7 +14,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(registry ->
                         registry
                                 .requestMatchers("/h2-console/**").permitAll() // Allow H2 console access
-                                .anyRequest().permitAll() // Allow all other requests
+                                .anyRequest().authenticated() // Require authentication for all other requests
                 )
                 .csrf(csrf -> csrf.disable()) // Disable CSRF for development/testing
                 .headers(headers -> headers.frameOptions(frame -> frame.disable())); // Allow H2 console iframes
