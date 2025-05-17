@@ -14,6 +14,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(registry ->
                         registry
                                 .requestMatchers("/h2-console/**").permitAll() // Allow H2 console access
+                                .requestMatchers("/swagger-ui/**").permitAll() // Allow Swagger UI access
+                                .requestMatchers("/v3/api-docs/**").permitAll() // Allow OpenAPI docs access
                                 .anyRequest().authenticated() // Require authentication for all other requests
                 )
                 .csrf(csrf -> csrf.disable()) // Disable CSRF for development/testing
