@@ -1,2 +1,18 @@
+# Handle line endings automatically
+* text=auto
+
+# Explicitly enforce LF for common file types
 /mvnw text eol=lf
 *.cmd text eol=crlf
+*.js text eol=lf
+*.ts text eol=lf
+*.tsx text eol=lf
+*.css text eol=lf
+*.html text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.sh text eol=lf
+*.java text eol=lf
+*.xml text eol=lf

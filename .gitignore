@@ -34,7 +34,15 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
-### VS Code ###
+### Frontend specific
+frontend/node_modules/
+frontend/dist/
+frontend/dist-ssr/
+frontend/.vite/
+frontend/.env.local
+frontend/coverage/
+
+# VS Code ###
 .vscode/
 
 ### General ###
