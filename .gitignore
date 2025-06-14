@@ -48,3 +48,4 @@ frontend/coverage/
 ### General ###
 *.db
 .DS_Store
+backend/target/
