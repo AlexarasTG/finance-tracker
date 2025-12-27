@@ -19,14 +19,14 @@ const AiAdvicePanel: React.FC<AiAdvicePanelProps> = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex justify-end" onClick={onClose}>
+    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm overflow-y-auto h-full w-full flex justify-end" onClick={onClose}>
       <div 
-        className="relative top-0 right-0 h-full w-full md:w-1/3 bg-white p-6 shadow-xl transform transition-transform duration-300 ease-in-out" 
+        className="relative top-0 right-0 h-full w-full md:w-1/3 bg-app-soft border-l border-border-subtle p-6 shadow-xl shadow-black/60 transform transition-transform duration-300 ease-in-out" 
         onClick={(e) => e.stopPropagation()} // Prevent click inside from closing
       >
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-2xl font-semibold">AI Financial Advice</h2>
-          <button onClick={onClose} className="text-gray-600 hover:text-gray-800 text-2xl">&times;</button>
+          <h2 className="text-2xl font-semibold text-ink">AI Financial Advice</h2>
+          <button onClick={onClose} className="text-ink-soft hover:text-ink text-2xl">&times;</button>
         </div>
         
         <div className="mb-4">
@@ -35,19 +35,19 @@ const AiAdvicePanel: React.FC<AiAdvicePanelProps> = ({ isOpen, onClose }) => {
               type="checkbox" 
               checked={funnyModeOn} 
               onChange={() => setFunnyModeOn(!funnyModeOn)} 
-              className="form-checkbox h-5 w-5 text-purple-600 rounded"
+              className="form-checkbox h-4 w-4 text-accent-magenta rounded border-border-subtle"
             />
-            <span className="text-sm text-gray-700">Toggle "Tough Love" mode</span>
+            <span className="text-sm text-ink-soft">Toggle "Tough Love" mode</span>
           </label>
         </div>
 
-        <div className="bg-purple-50 p-4 rounded-lg">
-          <p className="text-gray-700 whitespace-pre-wrap">
+        <div className="bg-surface-elevated border border-border-subtle p-4 rounded-lg">
+          <p className="text-ink-soft whitespace-pre-wrap">
             {getAdvice()}
           </p>
         </div>
 
-        <p className="mt-4 text-xs text-gray-500">
+        <p className="mt-4 text-xs text-ink-muted">
           (This is mocked advice. Consult a professional for real financial planning.)
         </p>
       </div>
