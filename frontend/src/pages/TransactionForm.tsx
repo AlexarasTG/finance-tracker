@@ -80,72 +80,95 @@ const TransactionForm: React.FC = () => {
 
   if (loading && isEditing && !amount) {
     // Show loading indicator if editing and data hasn't been populated yet
-    return <div className="container mx-auto p-4 max-w-lg text-center">Loading transaction data...</div>;
+    return <div className="max-w-xl mx-auto p-4 text-center">Loading transaction data...</div>;
   }
 
   return (
-    <div className="container mx-auto p-4 max-w-lg">
-      <h1 className="text-3xl font-bold mb-6">{isEditing ? 'Edit Transaction' : 'Add New Transaction'}</h1>
-      {error && <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">Context Error: {error}</div>}
-      {formError && <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">{formError}</div>}
-      <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow space-y-4">
-        <div>
-          <label className="block text-sm font-medium text-gray-700">Type</label>
+    <div className="max-w-xl mx-auto space-y-6">
+      <h1 className="text-3xl font-bold text-ink">{isEditing ? 'Edit Transaction' : 'Add New Transaction'}</h1>
+      {error && (
+        <div
+          className="bg-danger/10 border border-danger/60 text-danger px-4 py-3 rounded-lg mb-2 text-sm"
+          role="alert"
+        >
+          Context Error: {error}
+        </div>
+      )}
+      {formError && (
+        <div
+          className="bg-danger/10 border border-danger/60 text-danger px-4 py-3 rounded-lg mb-2 text-sm"
+          role="alert"
+        >
+          {formError}
+        </div>
+      )}
+      <form
+        onSubmit={handleSubmit}
+        className="bg-surface p-6 rounded-xl border border-border-subtle shadow-lg shadow-black/40 space-y-4"
+      >
+        <div className="bg-app/60 border border-border-subtle rounded-lg p-3 transition-transform duration-150 ease-in-out hover:scale-[1.01] focus-within:border-accent-cyan focus-within:shadow-md focus-within:shadow-accent-cyan/20">
+          <label className="block text-sm font-medium text-ink-soft">Type</label>
           <select 
             value={type} 
             onChange={(e) => setType(e.target.value as 'income' | 'expense')} 
-            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            className="mt-1 block w-full p-2 rounded-md bg-app border border-border-subtle text-ink shadow-sm focus:ring-accent-cyan focus:border-accent-cyan sm:text-sm"
             disabled={loading}
           >
             <option value="expense">Expense</option>
             <option value="income">Income</option>
           </select>
         </div>
-        <div>
-          <label htmlFor="amount" className="block text-sm font-medium text-gray-700">Amount</label>
+        <div className="bg-app/60 border border-border-subtle rounded-lg p-3 transition-transform duration-150 ease-in-out hover:scale-[1.01] focus-within:border-accent-cyan focus-within:shadow-md focus-within:shadow-accent-cyan/20">
+          <label htmlFor="amount" className="block text-sm font-medium text-ink-soft">Amount</label>
           <input 
             type="number" 
             id="amount" 
             value={amount} 
             onChange={(e) => setAmount(e.target.value)} 
-            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            className="mt-1 block w-full p-2 rounded-md bg-app border border-border-subtle text-ink placeholder-ink-muted shadow-sm focus:ring-accent-cyan focus:border-accent-cyan sm:text-sm"
             placeholder="0.00"
             required 
             disabled={loading}
           />
         </div>
-        <div>
-          <label htmlFor="description" className="block text-sm font-medium text-gray-700">Description</label>
+        <div className="bg-app/60 border border-border-subtle rounded-lg p-3 transition-transform duration-150 ease-in-out hover:scale-[1.01] focus-within:border-accent-cyan focus-within:shadow-md focus-within:shadow-accent-cyan/20">
+          <label htmlFor="description" className="block text-sm font-medium text-ink-soft">Description</label>
           <input 
             type="text" 
             id="description" 
             value={description} 
             onChange={(e) => setDescription(e.target.value)} 
-            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            className="mt-1 block w-full p-2 rounded-md bg-app border border-border-subtle text-ink placeholder-ink-muted shadow-sm focus:ring-accent-cyan focus:border-accent-cyan sm:text-sm"
             placeholder="e.g., Coffee with friends"
             required 
             disabled={loading}
           />
         </div>
-        <div>
-          <label htmlFor="date" className="block text-sm font-medium text-gray-700">Date</label>
+        <div className="bg-app/60 border border-border-subtle rounded-lg p-3 transition-transform duration-150 ease-in-out hover:scale-[1.01] focus-within:border-accent-cyan focus-within:shadow-md focus-within:shadow-accent-cyan/20">
+          <label htmlFor="date" className="block text-sm font-medium text-ink-soft">Date</label>
           <input 
             type="date" 
             id="date" 
             value={date} 
             onChange={(e) => setDate(e.target.value)} 
-            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            onDoubleClick={(e) => {
+              const input = e.currentTarget as HTMLInputElement & { showPicker?: () => void };
+              if (input.showPicker) {
+                input.showPicker();
+              }
+            }}
+            className="mt-1 block w-full p-2 rounded-md bg-app border border-border-subtle text-ink shadow-sm focus:ring-accent-cyan focus:border-accent-cyan sm:text-sm"
             required 
             disabled={loading}
           />
         </div>
-        <div>
-          <label htmlFor="category" className="block text-sm font-medium text-gray-700">Category</label>
+        <div className="bg-app/60 border border-border-subtle rounded-lg p-3 transition-transform duration-150 ease-in-out hover:scale-[1.01] focus-within:border-accent-cyan focus-within:shadow-md focus-within:shadow-accent-cyan/20">
+          <label htmlFor="category" className="block text-sm font-medium text-ink-soft">Category</label>
           <select 
             id="category" 
             value={category} 
             onChange={(e) => setCategory(e.target.value)} 
-            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            className="mt-1 block w-full p-2 rounded-md bg-app border border-border-subtle text-ink shadow-sm focus:ring-accent-cyan focus:border-accent-cyan sm:text-sm"
             required
             disabled={loading}
           >
@@ -157,7 +180,7 @@ const TransactionForm: React.FC = () => {
         </div>
         <button 
           type="submit" 
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-150 ease-in-out disabled:opacity-50"
+          className="w-full bg-gradient-to-r from-primary-purple to-brand-green hover:from-primary-purple-deep hover:to-brand-green text-ink font-semibold py-2.5 px-4 rounded-lg transition-colors duration-150 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed"
           disabled={loading}
         >
           {loading ? (isEditing ? 'Updating...' : 'Adding...') : (isEditing ? 'Update Transaction' : 'Add Transaction')}

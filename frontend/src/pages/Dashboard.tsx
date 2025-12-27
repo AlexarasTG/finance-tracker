@@ -1,6 +1,5 @@
 // src/pages/Dashboard.tsx
 import React from 'react';
-import { Link } from 'react-router-dom';
 import MockChart from '../components/MockChart.tsx';
 import AiAdvicePanel from '../components/AiAdvicePanel.tsx';
 import { useTransactions } from '../context/TransactionContext.tsx';
@@ -28,47 +27,41 @@ const Dashboard: React.FC = () => {
   }
 
   if (error) {
-    return <div className="container mx-auto p-4 text-center text-red-500">Error loading data: {error}</div>;
+    return <div className="container mx-auto p-4 text-center text-danger">Error loading data: {error}</div>;
   }
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-6">Dashboard</h1>
+    <div className="space-y-6">
+      <h1 className="text-3xl font-bold text-ink">Dashboard</h1>
 
       {/* Summary Section */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-        <div className="bg-white p-6 rounded-lg shadow">
-          <h2 className="text-xl font-semibold text-green-600">Total Income</h2>
-          <p className="text-2xl">${summary.income.toFixed(2)}</p>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="bg-surface p-6 rounded-xl border border-border-subtle shadow-lg shadow-black/40">
+          <h2 className="text-sm font-medium text-success">Total Income</h2>
+          <p className="mt-2 text-3xl font-semibold text-ink">${summary.income.toFixed(2)}</p>
         </div>
-        <div className="bg-white p-6 rounded-lg shadow">
-          <h2 className="text-xl font-semibold text-red-600">Total Expenses</h2>
-          <p className="text-2xl">${summary.expenses.toFixed(2)}</p>
+        <div className="bg-surface p-6 rounded-xl border border-border-subtle shadow-lg shadow-black/40">
+          <h2 className="text-sm font-medium text-accent-magenta">Total Expenses</h2>
+          <p className="mt-2 text-3xl font-semibold text-ink">${summary.expenses.toFixed(2)}</p>
         </div>
-        <div className="bg-white p-6 rounded-lg shadow">
-          <h2 className="text-xl font-semibold text-blue-600">Current Balance</h2>
-          <p className="text-2xl">${summary.balance.toFixed(2)}</p>
+        <div className="bg-surface p-6 rounded-xl border border-border-subtle shadow-lg shadow-black/40">
+          <h2 className="text-sm font-medium text-accent-cyan">Current Balance</h2>
+          <p className="mt-2 text-3xl font-semibold text-ink">${summary.balance.toFixed(2)}</p>
         </div>
       </div>
 
       {/* Chart Section */}
-      <div className="bg-white p-6 rounded-lg shadow mb-6">
-        <h2 className="text-xl font-semibold mb-4">Expense Breakdown (Mock Chart)</h2>
+      <div className="bg-surface p-6 rounded-xl border border-border-subtle shadow-lg shadow-black/40">
+        <h2 className="text-lg font-semibold text-ink mb-4">Expense Breakdown (Mock Chart)</h2>
         {/* Pass transaction data to MockChart if it can accept it, or update MockChart to use context */}
         <MockChart /> 
       </div>
 
       {/* Actions */}
-      <div className="flex space-x-4 mb-6">
-        <Link 
-          to="/transaction/new"
-          className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded transition duration-150 ease-in-out"
-        >
-          Add New Transaction
-        </Link>
+      <div className="flex flex-wrap items-center gap-4">
         <button 
           onClick={() => setIsAdvicePanelOpen(!isAdvicePanelOpen)}
-          className="bg-purple-500 hover:bg-purple-600 text-white font-bold py-2 px-4 rounded transition duration-150 ease-in-out"
+          className="bg-primary-purple hover:bg-primary-purple-deep text-ink font-semibold py-2.5 px-5 rounded-lg shadow-sm shadow-black/40 transition-colors duration-150 ease-in-out"
         >
           {isAdvicePanelOpen ? 'Hide' : 'Show'} AI Financial Advice
         </button>

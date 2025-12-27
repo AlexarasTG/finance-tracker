@@ -37,42 +37,41 @@ const TransactionsView: React.FC = () => {
   }
 
   if (error) {
-    return <div className="container mx-auto p-4 text-center text-red-500">Error loading transactions: {error}</div>;
+    return <div className="container mx-auto p-4 text-center text-danger">Error loading transactions: {error}</div>;
   }
 
   return (
-    <div className="container mx-auto p-4">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold">Transactions</h1>
-        <Link 
-          to="/transaction/new"
-          className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded transition duration-150 ease-in-out"
-        >
-          Add New Transaction
-        </Link>
+    <div className="space-y-6">
+      <div className="flex items-center">
+        <h1 className="text-3xl font-bold text-ink">Transactions</h1>
       </div>
 
       {/* Filter Bar */}
-      <div className="bg-white p-4 rounded-lg shadow mb-6 flex flex-col md:flex-row gap-4">
+      <div className="bg-surface p-4 rounded-xl border border-border-subtle shadow-lg shadow-black/40 flex flex-col md:flex-row gap-4">
         <div>
-          <label htmlFor="dateFilter" className="block text-sm font-medium text-gray-700">Filter by Date (YYYY-MM-DD):</label>
+          <label htmlFor="dateFilter" className="block text-sm font-medium text-ink-soft">Filter by Date:</label>
           <input 
-            type="text" 
+            type="date" 
             id="dateFilter" 
             value={dateFilter} 
             onChange={(e) => setDateFilter(e.target.value)} 
-            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            placeholder="YYYY-MM-DD"
+            onDoubleClick={(e) => {
+              const input = e.currentTarget as HTMLInputElement & { showPicker?: () => void };
+              if (input.showPicker) {
+                input.showPicker();
+              }
+            }}
+            className="mt-1 block w-full p-2 rounded-md bg-app border border-border-subtle text-ink shadow-sm focus:ring-accent-cyan focus:border-accent-cyan sm:text-sm"
           />
         </div>
         <div>
-          <label htmlFor="categoryFilter" className="block text-sm font-medium text-gray-700">Filter by Category:</label>
+          <label htmlFor="categoryFilter" className="block text-sm font-medium text-ink-soft">Filter by Category:</label>
           <input 
             type="text" 
             id="categoryFilter" 
             value={categoryFilter} 
             onChange={(e) => setCategoryFilter(e.target.value)} 
-            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            className="mt-1 block w-full p-2 rounded-md bg-app border border-border-subtle text-ink placeholder-ink-muted shadow-sm focus:ring-accent-cyan focus:border-accent-cyan sm:text-sm"
             list="categories"
             placeholder="Type or select category"
           />
@@ -83,35 +82,48 @@ const TransactionsView: React.FC = () => {
       </div>
 
       {/* Transactions Table */}
-      <div className="bg-white rounded-lg shadow overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
+      <div className="bg-surface rounded-xl border border-border-subtle shadow-lg shadow-black/40 overflow-x-auto">
+        <table className="min-w-full divide-y divide-border-subtle">
+          <thead className="bg-app-soft">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-ink-muted uppercase tracking-wider">Amount</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-ink-muted uppercase tracking-wider">Category</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-ink-muted uppercase tracking-wider">Date</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-ink-muted uppercase tracking-wider">Description</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-ink-muted uppercase tracking-wider">Actions</th>
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
+          <tbody className="bg-surface divide-y divide-border-subtle">
             {filteredTransactions.map((transaction: Transaction) => (
-              <tr key={transaction.id}>
-                <td className={`px-6 py-4 whitespace-nowrap text-sm font-medium ${transaction.type === 'income' ? 'text-green-600' : 'text-red-600'}`}>
+              <tr
+                key={transaction.id}
+                className="transition-colors duration-150 hover:bg-surface-elevated"
+              >
+                <td className={`px-6 py-4 whitespace-nowrap text-sm font-medium ${transaction.type === 'income' ? 'text-success' : 'text-danger'}`}>
                   {transaction.type === 'income' ? '+' : '-'}${transaction.amount.toFixed(2)}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{transaction.category}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{transaction.date}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{transaction.description}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-ink-soft">{transaction.category}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-ink-soft">{transaction.date}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-ink-soft">{transaction.description}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
-                  <Link to={`/transaction/${transaction.id}/edit`} className="text-indigo-600 hover:text-indigo-900">Edit</Link>
-                  <button onClick={() => handleDelete(transaction.id)} className="text-red-600 hover:text-red-900">Delete</button>
+                  <Link
+                    to={`/transaction/${transaction.id}/edit`}
+                    className="text-accent-cyan hover:text-accent-cyan-soft transition-colors"
+                  >
+                    Edit
+                  </Link>
+                  <button
+                    onClick={() => handleDelete(transaction.id)}
+                    className="text-accent-magenta hover:text-accent-magenta-glow transition-colors"
+                  >
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))}
             {filteredTransactions.length === 0 && !loading && (
               <tr>
-                <td colSpan={5} className="px-6 py-4 text-center text-gray-500">No transactions found.</td>
+                <td colSpan={5} className="px-6 py-4 text-center text-ink-muted">No transactions found.</td>
               </tr>
             )}
           </tbody>
